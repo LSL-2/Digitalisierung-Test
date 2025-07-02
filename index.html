@@ -1,117 +1,166 @@
-<body id="it5h">
-  <meta charset="UTF-8"/>
-  <title>Regiebericht Formular
-  </title>
-  <h1 id="ihi5">Regiebericht
-  </h1>
-  <form method="POST" action="https://htwg.walz40.eu/webhook/kurzbericht">
-    <div class="section">
-      <h3 id="iprsk">Auftraggeber
-      </h3>
-      <label for="ag_name" id="igttk">Name</label>
-      <input type="text" name="ag_name" id="ag_name" required/>
-      <label for="ag_strasse">Straße, Nr.</label>
-      <input type="text" name="ag_strasse" id="ag_strasse"/>
-      <label for="ag_plz_ort">PLZ, Ort</label>
-      <input type="text" name="ag_plz_ort" id="ag_plz_ort"/>
-      <label for="ag_telefon">Telefon</label>
-      <input type="text" name="ag_telefon" id="ag_telefon"/>
-      <label for="ag_email">E-Mail</label>
-      <input type="email" name="ag_email" id="ag_email"/>
-      <label for="ag_ansprechpartner_name">Ansprechpartner</label>
-      <select type="text" name="ag_ansprechpartner_name" id="ag_ansprechpartner_name" required><option value="">-- Bitte Ansprechpartner wählen --</option><option value="Max Mustermann" data-email="max.mustermann@example.com">Max Mustermann</option><option value="Lena Link" data-email="sophlen@gmx.de">Lena Link</option><option value="Julian Hofmann" data-email="tn8n@jhofmann.net">Julian Hofmann</option><option value="Projektleiter Megagut" data-email="p.megagut@example.com">Projektleiter Megagut</option></select>
-      <input type="hidden" name="ag_ansprechpartner_mail" id="ag_ansprechpartner_mail"/>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Regiebericht Formular</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 900px;
+      margin: auto;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    textarea, input, select {
+      width: 100%;
+      padding: 5px;
+      margin-top: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: left;
+    }
+    .half {
+      width: 48%;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .section {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Regiebericht</h1>
+<form action="https://htwg.walz40.eu/webhook/kurzbericht" method="POST">
+
+  <div class="section">
+    <h3>Auftraggeber</h3>
+    <label for="ag_name">Name</label>
+    <input type="text" name="ag_name" id="ag_name" required>
+
+    <label for="ag_strasse">Straße, Nr.</label>
+    <input type="text" name="ag_strasse" id="ag_strasse">
+
+    <label for="ag_plz_ort">PLZ, Ort</label>
+    <input type="text" name="ag_plz_ort" id="ag_plz_ort">
+
+    <label for="ag_telefon">Telefon</label>
+    <input type="text" name="ag_telefon" id="ag_telefon">
+
+    <label for="ag_email">E-Mail</label>
+    <input type="email" name="ag_email" id="ag_email">
+
+    <label for="ag_ansprechpartner_name">Ansprechpartner</label>
+    <select name="ag_ansprechpartner_name" id="ag_ansprechpartner_name" required onchange="setEmailForContact()">
+      <option value="">-- Bitte Ansprechpartner wählen --</option>
+      <option value="Max Mustermann" data-email="max.mustermann@example.com">Max Mustermann</option>
+      <option value="Lena Link" data-email="sophlen@gmx.de">Lena Link</option>
+      <option value="Julian Hofmann" data-email="tn8n@jhofmann.net">Julian Hofmann</option>
+      <option value="Projektleiter Megagut" data-email="p.megagut@example.com">Projektleiter Megagut</option>
+    </select>
+
+    <input type="hidden" name="ag_ansprechpartner_mail" id="ag_ansprechpartner_mail">
+  </div>
+
+  <div class="section">
+    <h3>Projekt / Objekt</h3>
+    <label for="projekt_bezeichnung">Bezeichnung</label>
+    <input type="text" name="projekt_bezeichnung" id="projekt_bezeichnung">
+
+    <label for="leistungszeitraum">Leistungszeitraum</label>
+    <input type="text" name="leistungszeitraum" id="leistungszeitraum">
+
+    <label for="projekt_strasse">Straße, Nr.</label>
+    <input type="text" name="projekt_strasse" id="projekt_strasse">
+
+    <label for="projekt_plz_ort">PLZ, Ort</label>
+    <input type="text" name="projekt_plz_ort" id="projekt_plz_ort">
+  </div>
+
+  <div class="section">
+    <h3>Leistungsbeschreibung / Ausgeführte Arbeiten</h3>
+    <textarea name="beschreibung" rows="5"></textarea>
+
+    <h3>Zusatzarbeiten</h3>
+    <textarea name="zusatzarbeiten" rows="3"></textarea>
+  </div>
+
+  <div class="section">
+    <h3>Mitarbeiter</h3>
+    <table>
+      <thead>
+        <tr><th>Mitarbeiter</th><th>Rolle</th><th>Std</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" name="ma1_name"></td>
+          <td><input type="text" name="ma1_rolle"></td>
+          <td><input type="text" name="ma1_std"></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="ma2_name"></td>
+          <td><input type="text" name="ma2_rolle"></td>
+          <td><input type="text" name="ma2_std"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="half">
+      <h3>Menge / Maschine / Gerät</h3>
+      <textarea name="maschinen" rows="5"></textarea>
     </div>
-    <div class="section" id="ijn8z">
-      <h3 id="idr1j">Projekt / Objekt
-      </h3>
-      <label for="projekt_bezeichnung">Bezeichnung</label>
-      <input type="text" name="projekt_bezeichnung" id="projekt_bezeichnung"/>
-      <label for="leistungszeitraum">Leistungszeitraum</label>
-      <input type="text" name="leistungszeitraum" id="leistungszeitraum"/>
-      <label for="projekt_strasse">Straße, Nr.</label>
-      <input type="text" name="projekt_strasse" id="projekt_strasse"/>
-      <label for="projekt_plz_ort">PLZ, Ort</label>
-      <input type="text" name="projekt_plz_ort" id="projekt_plz_ort"/>
+    <div class="half">
+      <h3>Materialverbrauch</h3>
+      <textarea name="material" rows="5"></textarea>
     </div>
-    <div class="section">
-      <h3>Leistungsbeschreibung / Ausgeführte Arbeiten
-      </h3>
-      <textarea name="beschreibung" rows="5"></textarea>
-      <h3>Zusatzarbeiten
-      </h3>
-      <textarea name="zusatzarbeiten" rows="3"></textarea>
-    </div>
-    <div class="section">
-      <h3>Mitarbeiter
-      </h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Mitarbeiter
-            </th>
-            <th>Rolle
-            </th>
-            <th id="imugl">Std
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <input type="text" name="ma1_name"/>
-            </td>
-            <td id="i6u2w">
-              <input type="text" name="ma1_rolle"/>
-            </td>
-            <td>
-              <input type="text" name="ma1_std" id="i0rp6"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="text" name="ma2_name"/>
-            </td>
-            <td>
-              <input type="text" name="ma2_rolle"/>
-            </td>
-            <td>
-              <input type="text" name="ma2_std"/>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="section" id="itsyt">
-      <div class="half" id="i7j6x">
-        <h3 id="irzyh">Menge / Maschine / Gerät
-        </h3>
-        <textarea name="maschinen" rows="5"></textarea>
-      </div>
-      <div class="half" id="ix2gv">
-        <h3 id="imtzo">Materialverbrauch
-        </h3>
-        <textarea name="material" rows="5" id="isxz1"></textarea>
-      </div>
-    </div>
-    <div class="section">
-      <h3>Anmerkungen
-      </h3>
-      <textarea name="anmerkungen" rows="3"></textarea>
-    </div>
-    <div class="section" id="iupe23">
-      <h3 id="iulu6g">Arbeitsstatus
-      </h3>
-      <br/>
-      <label for="offene_arbeiten" id="id1uqh">Folgende Arbeiten noch zu erledigen:</label>
-      <textarea name="offene_arbeiten" id="offene_arbeiten" rows="3"></textarea>
-    </div>
-    <div class="section" id="i0sp5j">
-      <label for="ort">Ort</label>
-      <input type="text" name="ort" id="ort"/>
-      <label for="datum">Datum</label>
-      <input type="date" name="datum" id="datum"/>
-    </div>
-    <button type="submit">Senden</button>
-  </form>
+  </div>
+
+  <div class="section">
+    <h3>Anmerkungen</h3>
+    <textarea name="anmerkungen" rows="3"></textarea>
+  </div>
+
+  <div class="section">
+    <h3>Arbeitsstatus</h3>
+    <label><input type="checkbox" name="abgeschlossen" value="ja"> Arbeiten abgeschlossen</label><br>
+    <label for="offene_arbeiten">Folgende Arbeiten noch zu erledigen:</label>
+    <textarea name="offene_arbeiten" id="offene_arbeiten" rows="3"></textarea>
+  </div>
+
+  <div class="section">
+    <label for="ort">Ort</label>
+    <input type="text" name="ort" id="ort">
+
+    <label for="datum">Datum</label>
+    <input type="date" name="datum" id="datum">
+  </div>
+
+  <button type="submit">Senden</button>
+</form>
+
+<script>
+  function setEmailForContact() {
+    const select = document.getElementById('ag_ansprechpartner_name');
+    const selectedOption = select.options[select.selectedIndex];
+    const email = selectedOption.getAttribute('data-email');
+    document.getElementById('ag_ansprechpartner_mail').value = email || '';
+  }
+</script>
+
 </body>
+</html>
